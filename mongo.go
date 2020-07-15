@@ -9,9 +9,9 @@ import (
 
 //MongoDB 1
 type MongoDB struct {
-	Clt *mongo.Client
-	db  string
-	url string
+	MgoClient *mongo.Client
+	db        string
+	url       string
 }
 
 //NewMongoDB 初始化一个新的mongo实力
@@ -22,7 +22,7 @@ func NewMongoDB(url, db string) *MongoDB {
 		log.Panic(err)
 	}
 	_ = c.Connect(nil)
-	r.Clt = c
+	r.MgoClient = c
 
 	return r
 }
@@ -35,7 +35,7 @@ func (t *MongoDB) C(c string) *Coll {
 //CDb 获取默认的coll
 func (t *MongoDB) CDb(db, c string) *Coll {
 	r := &Coll{}
-	r.Collection = t.Clt.Database(db).Collection(c)
+	r.Collection = t.MgoClient.Database(db).Collection(c)
 	return r
 }
 
