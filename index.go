@@ -57,17 +57,17 @@ func (t *MongoDB) CreateIndexes(db, c string, ensure []string) error {
 		return rltD, false
 	}
 	//这里增加当前没有的索引，并标记多余的当前索引
-	for k, _ := range indexNew {
+	for k := range indexNew {
 		if _, ok := indexNow[k]; !ok {
 			keys, uq := f(k)
 			if keys == nil {
 				continue
 			}
-			modle := mongo.IndexModel{
+			model := mongo.IndexModel{
 				Keys:    keys,
-				Options: options.Index().SetBackground(true).SetName(k).SetUnique(uq),
+				Options: options.Index().SetBackground(true).SetName(k).SetUnique(uq).SetSparse(uq),
 			}
-			_, err = ii.CreateOne(context.Background(), modle)
+			_, err = ii.CreateOne(context.Background(), model)
 			log.Println("AddEnsure:", k, err)
 			if err != nil {
 				return err
