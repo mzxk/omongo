@@ -31,7 +31,7 @@ func ID(h string) primitive.ObjectID {
 	}
 	r, err := primitive.ObjectIDFromHex(h)
 	if err != nil {
-		log.Println(err)
+		log.Println(err, h)
 	}
 	return r
 }
